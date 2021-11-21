@@ -4,6 +4,9 @@ from detectron2.utils.registry import Registry
 
 from .backbone import Backbone
 
+import logging
+logger = logging.getLogger(__name__)
+
 BACKBONE_REGISTRY = Registry("BACKBONE")
 BACKBONE_REGISTRY.__doc__ = """
 Registry for backbones, which extract feature maps from images
@@ -30,4 +33,18 @@ def build_backbone(cfg, input_shape=None):
     backbone_name = cfg.MODEL.BACKBONE.NAME
     backbone = BACKBONE_REGISTRY.get(backbone_name)(cfg, input_shape)
     assert isinstance(backbone, Backbone)
+
+    # Debug loggine
+    breakpoint()
+    import inspect
+
+    logger.debug(input_shape)
+    logger.debug(inspect.getsourcelines(BACKBONE_REGISTRY._obj_map.get(backbone_name)))
+    logger.debug(backbone._out_feature_channels)
+    logger.debug(backbone._out_feature_strides)
+    logger.debug(backbone.bottom_up._out_feature_channels)
+    logger.debug(backbone.bottom_up._out_feature_strides)
+
+    # ResNet architecture
+    logger.debug(backbone.bottom_up.stem)
     return backbone
