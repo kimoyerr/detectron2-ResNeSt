@@ -125,7 +125,7 @@ def setup(args):
 
 def main(args):
     cfg = setup(args)
-    
+
     #TODO: Change this
     args.eval_only=True
 
@@ -162,12 +162,12 @@ if __name__ == "__main__":
     from detectron2.data.datasets import register_coco_instances
     # train data
     name        = "TRAIN"
-    json_file   = "~/livecell-dataset/LIVECell_dataset_2021/annotations/LIVECell/livecell_coco_train_mod.json"
-    image_root  = "~/livecell-dataset/LIVECell_dataset_2021/images/livecell_train_val_images/"
+    json_file   = "/home/ec2-user/livecell-dataset/LIVECell_dataset_2021/annotations/LIVECell/livecell_coco_train_mod.json"
+    image_root  = "/home/ec2-user/livecell-dataset/LIVECell_dataset_2021/images/livecell_train_val_images/"
     # test data
     name_val        = "TEST"
-    json_file_val   = "~/livecell-dataset/LIVECell_dataset_2021/annotations/LIVECell/livecell_coco_test_mod.json"
-    image_root_val  = "~/livecell-dataset/LIVECell_dataset_2021/images/livecell_test_images/"
+    json_file_val   = "/home/ec2-user/livecell-dataset/LIVECell_dataset_2021/annotations/LIVECell/livecell_coco_test_mod.json"
+    image_root_val  = "/home/ec2-user/livecell-dataset/LIVECell_dataset_2021/images/livecell_test_images/"
     # registr
     register_coco_instances(name, {}, json_file, image_root)
     register_coco_instances(name_val, {}, json_file_val, image_root_val)
