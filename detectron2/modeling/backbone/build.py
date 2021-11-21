@@ -46,5 +46,19 @@ def build_backbone(cfg, input_shape=None):
     logger.debug(backbone.bottom_up._out_feature_strides)
 
     # ResNet architecture
+    # ResNet stem with convolutions
     logger.debug(backbone.bottom_up.stem)
+    logger.debug('The out-channels from the stem are input to the next stage')
+    # Batch normalization function for the stem convolutions
+    logger.debug(backbone.bottom_up.stem.conv1_1.norm)
+    # ResNet stage 2
+    for bb in range(len(backbone.bottom_up.res2)):
+        logger.debug(backbone.bottom_up.res2[bb])
+    logger.debug('The first convolution layer and the shortcut layer both take the inputs from the stem out-channels')
+    logger.debug('The output of the shortcut layer and the output of the last convolution layer in each stage (res2, res3, res4, etc.) have the same shape')
+    for bb in range(len(backbone.bottom_up.res3)):
+        logger.debug(backbone.bottom_up.res3[bb])
+    for bb in range(len(backbone.bottom_up.res5)):
+        logger.debug(backbone.bottom_up.res5[bb])
+
     return backbone
