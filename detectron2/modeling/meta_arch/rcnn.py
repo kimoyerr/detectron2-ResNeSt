@@ -16,6 +16,8 @@ from .build import META_ARCH_REGISTRY
 
 __all__ = ["GeneralizedRCNN", "ProposalNetwork"]
 
+import logging
+logger = logging.getLogger(__name__)
 
 @META_ARCH_REGISTRY.register()
 class GeneralizedRCNN(nn.Module):
@@ -159,6 +161,7 @@ class GeneralizedRCNN(nn.Module):
 
         images = self.preprocess_image(batched_inputs)
         features = self.backbone(images.tensor)
+        # logger.debug(features['p2'].shape)
 
         if detected_instances is None:
             if self.proposal_generator:

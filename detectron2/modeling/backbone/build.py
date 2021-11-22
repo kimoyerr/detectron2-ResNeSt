@@ -34,11 +34,11 @@ def build_backbone(cfg, input_shape=None):
     backbone = BACKBONE_REGISTRY.get(backbone_name)(cfg, input_shape)
     assert isinstance(backbone, Backbone)
 
-    # Debug loggine
-    breakpoint()
+    # Debug logging
     import inspect
 
     logger.debug(input_shape)
+    logger.debug(inspect.getsourcefile(BACKBONE_REGISTRY._obj_map.get(backbone_name)))
     logger.debug(inspect.getsourcelines(BACKBONE_REGISTRY._obj_map.get(backbone_name)))
     logger.debug(backbone._out_feature_channels)
     logger.debug(backbone._out_feature_strides)
@@ -60,5 +60,18 @@ def build_backbone(cfg, input_shape=None):
         logger.debug(backbone.bottom_up.res3[bb])
     for bb in range(len(backbone.bottom_up.res5)):
         logger.debug(backbone.bottom_up.res5[bb])
+    
+    # Output Shapes
+    logger.debug(backbone.bottom_up.output_shape())
 
+    # Feature pyramid: Top-down (up-sampling)+ Lateral Convolutions
+    logger.debug('The top-down features are just up-sampling interpolations. These are then summed with lateral-convolutions based on the ResNet bottom-up features')
+    logger.debug(backbone.lateral_convs)
+    # The final features used to predict at each level are all shaped 256
+    logger.debug(backbone.output_convs)
+    logger.debug(backbone._out_feature_channels)
+    # The final layer is a maxpool layer
+    logger.debug(backbone.top_block)
+
+    # breakpoint()
     return backbone

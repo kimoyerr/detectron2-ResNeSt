@@ -34,6 +34,9 @@ except ImportError:
     print(f"Could not find fast coco implementation")
     _use_fast_impl = False
 
+import logging
+logger = logging.getLogger(__name__)
+
 class COCOEvaluator(DatasetEvaluator):
     """
     Evaluate object proposal, instance detection/segmentation, keypoint detection
@@ -67,6 +70,7 @@ class COCOEvaluator(DatasetEvaluator):
         self._logger = logging.getLogger(__name__)
 
         self._metadata = MetadataCatalog.get(dataset_name)
+        logger.debug(self._metadata)
         if not hasattr(self._metadata, "json_file"):
             self._logger.warning(
                 f"json_file was not found in MetaDataCatalog for '{dataset_name}'."
@@ -81,6 +85,8 @@ class COCOEvaluator(DatasetEvaluator):
         with contextlib.redirect_stdout(io.StringIO()):
             self._coco_api = COCO(json_file)
 
+        logger.debug(len(self._coco_api.dataset))
+        logger.debug(self._coco_api.dataset['annotations'][0])
         self._kpt_oks_sigmas = cfg.TEST.KEYPOINT_OKS_SIGMAS
         # Test set json files do not contain annotations (evaluation must be
         # performed using the COCO evaluation server).
